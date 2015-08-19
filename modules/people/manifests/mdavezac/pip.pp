@@ -27,7 +27,8 @@
 define people::mdavezac::pip (
   $prefix = $boxen::config::homebrewdir,
   $ensure = present,
-  $proxy  = false
+  $proxy  = false,
+  $package = $name
 ) {
   $pip = "${prefix}/bin/pip"
 
@@ -39,14 +40,14 @@ define people::mdavezac::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command => "${pip} install ${name}",
+        command => "${pip} install ${package}",
         unless  => "${pip} freeze | grep -i -e ${grep_regex}",
       }
     }
 
     default: {
       exec { "pip_uninstall_${name}":
-        command => "echo y | ${pip} uninstall ${name}",
+        command => "echo y | ${pip} uninstall ${package}",
         onlyif  => "${pip} freeze | grep -i -e ${grep_regex}",
       }
     }

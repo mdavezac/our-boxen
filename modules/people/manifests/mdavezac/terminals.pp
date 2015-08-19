@@ -21,5 +21,4 @@ class people::mdavezac::terminals {
     path => "/Users/${::boxen_user}/.zprofile",
     line => "source /Users/${::boxen_user}/.dotfiles/zsh/zprofile"
   }
-
 }
