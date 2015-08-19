@@ -3,10 +3,12 @@ class people::mdavezac::lmod {
   include homebrew
   homebrew::tap { 'homebrew/science': }
   exec { 'lua filesystem':
-    command => 'luarocks install luafilesystem'
+    command => 'luarocks install luafilesystem',
+    unless  => "zsh -c 'source /Users/${::boxen_user}/.zprofile && lua -e 'require \"elfs\"'",
   }
   exec { 'lua luaposix':
     creates => "${boxen::config::homebrewdir}/lib/lua/5.2/posix.so",
+    unless  => "zsh -c 'source /Users/${::boxen_user}/.zprofile && lua -e 'require \"posix\"'",
     command => 'luarocks install luaposix'
   }
 
@@ -18,11 +20,6 @@ class people::mdavezac::lmod {
       Exec['lua filesystem'],
       Exec['lua luaposix']
     ]
-  }
-
-  file { "/Users/${::boxen_user}/.lmodfiles":
-    ensure  => directory,
-    recurse => true,
   }
 }
 

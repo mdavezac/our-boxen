@@ -9,6 +9,7 @@ class people::mdavezac::applications {
   include homebrew
 
   package { 'skype': provider => 'brewcask' }
+  package { 'slack': provider => 'brewcask' }
   package { 'bettertouchtool': provider => 'brewcask' }
   package { 'the_silver_searcher': }
   package { 'lua': }
