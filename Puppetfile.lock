@@ -4,11 +4,6 @@ GITHUBTARBALL
     prezto (1.0.1)
 
 GITHUBTARBALL
-  remote: awaxa/puppet-powerline
-  specs:
-    powerline (1.1.1)
-
-GITHUBTARBALL
   remote: boxen/puppet-boxen
   specs:
     boxen (3.10.4)
@@ -116,12 +111,7 @@ GITHUBTARBALL
 GITHUBTARBALL
   remote: boxen/puppet-vagrant
   specs:
-    vagrant (3.3.1)
-
-GITHUBTARBALL
-  remote: boxen/puppet-vim
-  specs:
-    vim (1.0.5)
+    vagrant (3.3.3)
 
 GITHUBTARBALL
   remote: boxen/puppet-virtualbox
@@ -180,14 +170,13 @@ DEPENDENCIES
   osx (= 2.8.0)
   phantomjs (= 2.4.0)
   pkgconfig (= 1.0.0)
-  powerline (= 1.1.1)
   prezto (= 1.0.1)
   repository (= 2.4.1)
   ruby (= 8.5.2)
   stdlib (= 4.2.1)
   sudo (= 1.0.0)
+  vagrant (= 3.3.3)
   vagrant (>= 0)
-  vim (= 1.0.5)
   virtualbox (>= 0)
   xquartz (= 1.2.1)
   zsh (>= 0)

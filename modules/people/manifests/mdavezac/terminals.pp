@@ -1,7 +1,7 @@
 class people::mdavezac::terminals {
   include iterm2::dev
   include iterm2::colors::solarized_dark
-  class { 'powerline': manage_font_library_dir => true, }
+  include people::mdavezac::powerfonts
   include zsh
   include prezto
 

@@ -2,7 +2,6 @@
 class people::mdavezac::applications {
   include chrome
   include dropbox
-  include vagrant
   include lastpass
 
   include brewcask
@@ -15,4 +14,5 @@ class people::mdavezac::applications {
   package { 'lua': }
   package { 'luajit': }
   package { 'cmake': }
+  class { 'vagrant': }
 }
