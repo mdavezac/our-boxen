@@ -5,5 +5,5 @@ class people::mdavezac::python {
     'ipython[\'all\']', 'scipy', 'numpy',
     'cython', 'pytest', 'virtualenv'
   ]
-  people::mdavezac::pip{ $packages: }
+  misc::pip{ $packages: }
 }

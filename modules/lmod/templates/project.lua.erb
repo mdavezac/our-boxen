@@ -1,0 +1,10 @@
+local homedir="<%= @workspace %>"
+local srcdir="<%= @source_dir %>"
+setenv("CURRENT_FUN_WITH_DIR", srcdir)
+prepend_path("DYLD_LIBRARY_PATH", pathJoin(homedir, "lib"))
+prepend_path("PATH", pathJoin(homedir, "bin"))
+
+<% if @python %>
+setenv("VIRTUAL_ENV", homedir)
+set_alias("pydoc", "python -m pydoc")
+<% end %>

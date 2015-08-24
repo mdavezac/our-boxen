@@ -24,7 +24,7 @@
 #
 # Sergey Stankevich
 #
-define people::mdavezac::pip (
+define misc::pip (
   $prefix = $boxen::config::homebrewdir,
   $ensure = present,
   $proxy  = false,
