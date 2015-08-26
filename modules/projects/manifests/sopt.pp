@@ -1,21 +1,20 @@
 # Creates sopt project
-class projects::sopt {
+class projects::sopt($python = 3) {
   require lmod
   lmod::project { 'sopt':
-    name       => 'sopt',
     repository => 'astro-informatics/sopt',
-    python     => true
+    python     => 3
   } -> misc::ctags {"${lmod::config::workspaces}/sopt/src/sopt": }
 
   if ! defined(Package['libtiff']) { package { 'libtiff': } }
-  Lmod::Project['sopt'] -> Package['libtiff']
+  Package['libtiff'] -> Lmod::Project['sopt']
 
   if ! defined(Package['ninja']) { package { 'ninja': } }
-  Lmod::Project['sopt'] -> Package['ninja']
+  Package['ninja'] -> Lmod::Project['sopt']
 
   if ! defined(Package['fftw']) { package { 'fftw': } }
-  Lmod::Project['sopt'] -> Package['fftw']
+  Package['fftw'] -> Lmod::Project['sopt']
 
   if ! defined(Package['eigen']) { package { 'eigen': } }
-  Lmod::Project['sopt'] -> Package['eigen']
+  Package['eigen'] -> Lmod::Project['sopt']
 }

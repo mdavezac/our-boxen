@@ -8,3 +8,10 @@ prepend_path("PATH", pathJoin(homedir, "bin"))
 setenv("VIRTUAL_ENV", homedir)
 set_alias("pydoc", "python -m pydoc")
 <% end %>
+
+<% if @julia %>
+  setenv(
+    "JULIA_PKGDIR",
+    pathJoin(homedir, ".julia", "<%=scope["julia::config::version"]%>"
+  )
+<% end %>

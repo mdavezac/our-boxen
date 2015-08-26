@@ -24,4 +24,5 @@ class people::mdavezac {
   include people::mdavezac::python
   include people::mdavezac::vim
   include lmod
+  include julia
 }

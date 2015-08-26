@@ -1,8 +1,7 @@
 # creates a project
 define lmod::project(
-  $name,
   $repository,
-  $python = false,
+  $python = undef,
   $directory = undef,
 ) {
   require lmod::config
@@ -15,25 +14,34 @@ define lmod::project(
     source  => $repository,
   }
   if($python) {
+    $venv = $python ? {
+      2 => 'python -m virtualenv',
+      3 => 'python3 -m venv'
+    }
     exec { "virtualenv_${name}":
       creates => "${workspace}/bin/python",
-      command => "python -m virtualenv ${workspace}",
-    } -> misc::pip {
+      command => "${venv} ${workspace}",
+    }
+    misc::pip {
       "${name}-ipython['all']":
         ensure  => present,
         prefix  => $workspace,
+        require => Exec["virtualenv_${name}"],
         package => 'ipython[\'all\']';
       "${name}-numpy":
         ensure  => present,
         prefix  => $workspace,
+        require => Exec["virtualenv_${name}"],
         package => 'numpy';
       "${name}-scipy":
         ensure  => present,
         prefix  => $workspace,
+        require => Exec["virtualenv_${name}"],
         package => 'scipy';
       "${name}-matplotlib":
         ensure  => present,
         prefix  => $workspace,
+        require => Exec["virtualenv_${name}"],
         package => 'matplotlib';
     }
   }
