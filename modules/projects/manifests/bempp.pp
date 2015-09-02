@@ -52,4 +52,13 @@ class projects::bempp($python = 3) {
 
   if ! defined(Package['eigen']) { package { 'eigen': } }
   Package['eigen'] -> Lmod::Project[$proj]
+
+  if ! defined(Package['docker']) { package { 'docker': } }
+  Package['docker'] -> Lmod::Project[$proj]
+
+  if ! defined(Package['docker-machine']) { package { 'docker-machine': } }
+  Package['docker-machine'] -> Lmod::Project[$proj]
+
+  if ! defined(Package['boot2docker']) { package { 'boot2docker': } }
+  Package['boot2docker'] -> Lmod::Project[$proj]
 }

@@ -26,4 +26,8 @@ class people::mdavezac::vim {
   file {"${dotvim::config::vimdir}/undo":
     ensure => directory
   }
+  file {"/Users/${::boxen_user}/.ycm_extra_conf.py":
+    target => "/Users/${::boxen_user}/.dotfiles/vim/ycm_extra_conf.py",
+    ensure => 'link'
+  }
 }

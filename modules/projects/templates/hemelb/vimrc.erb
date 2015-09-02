@@ -1,0 +1,20 @@
+" vim: set filetype=vim :
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set expandtab
+
+set colorcolumn=101
+set textwidth=100
+
+set makeprg=ninja\ -C\ <%= "#{@repodir}/build"%>\ -v
+let g:syntastic_cpp_config_file="<%= "#{scope["lmod::config::workspaces"]}/#{@project}/.cppconfig"%>"
+let g:syntastic_cpp_include_dirs=[
+\  "/opt/boxen/homebrew/Cellar/open-mpi/1.8.8/include",
+\  "/opt/boxen/homebrew/include",
+\  "<%=@repodir%>/dependencies/include",
+\  "<%=@repodir%>/build",
+\  "<%=@repodir%>/Code",
+\  "<%=@repodir%>/build/hemelb-prefix/src/hemelb-build/"
+\ ]
+" let g:ycm_collect_identifiers_from_tags_files=1

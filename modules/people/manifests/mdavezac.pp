@@ -5,6 +5,9 @@ class people::mdavezac {
 
   repository { "/Users/${::boxen_user}/.dotfiles":
     source => "${::github_login}/dotfiles",
+  } -> file { "/Users/${::boxen_user}/.hgrc":
+    ensure => 'link',
+    target => "/Users/${::boxen_user}/.dotfiles/hgrc"
   }
 
   include osx::dock::autohide

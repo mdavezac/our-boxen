@@ -1,6 +1,6 @@
 # creates a project
 define lmod::project(
-  $repository,
+  $repository = $undef,
   $python = undef,
   $directory = undef,
 ) {
@@ -10,8 +10,10 @@ define lmod::project(
   else { $workspace = "${lmod::config::workspaces}/${name}" }
 
   $source_dir = "${workspace}/src/${name}"
-  repository { $source_dir:
-    source  => $repository,
+  if $repository {
+    repository { $source_dir:
+      source  => $repository,
+    }
   }
   if($python) {
     $venv = $python ? {
@@ -43,9 +45,14 @@ define lmod::project(
         prefix  => $workspace,
         require => Exec["virtualenv_${name}"],
         package => 'matplotlib';
+      "${name}-pyside":
+        ensure => present,
+        prefix  => $workspace,
+        require => Exec["virtualenv_${name}"],
+        package => 'pyside';
     }
   }
-  file { 'lmodfile $name':
+  file { "lmodfile ${name}":
     path    => "${lmod::config::lmodfiles}/${name}.lua",
     content => template('lmod/project.lua.erb')
   }
