@@ -41,24 +41,13 @@ class projects::bempp($python = 3) {
     prefix  => "${lmod::config::workspaces}/bempp/",
     package => 'mako'
   }
-  if ! defined(Package['gcc']) { package { 'gcc': } }
-  Package['gcc'] -> Lmod::Project[$proj]
-
-  if ! defined(Package['boost']) { package { 'boost': } }
-  Package['boost'] -> Lmod::Project[$proj]
-
-  if ! defined(Package['doxygen']) { package { 'doxygen': } }
-  Package['doxygen'] -> Lmod::Project[$proj]
-
-  if ! defined(Package['eigen']) { package { 'eigen': } }
-  Package['eigen'] -> Lmod::Project[$proj]
-
-  if ! defined(Package['docker']) { package { 'docker': } }
-  Package['docker'] -> Lmod::Project[$proj]
-
-  if ! defined(Package['docker-machine']) { package { 'docker-machine': } }
-  Package['docker-machine'] -> Lmod::Project[$proj]
-
-  if ! defined(Package['boot2docker']) { package { 'boot2docker': } }
-  Package['boot2docker'] -> Lmod::Project[$proj]
+  lmod::ensure_package{[
+    'gcc', 'boost', 'doxygen', 'eigen', 'docker', 'docker-machine',
+    'boot2docker']:
+    project => $project
+  }
+  lmod::ensure_package{'gpgtools':
+    project  => $project,
+    provider => 'brewcask'
+  }
 }

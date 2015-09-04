@@ -35,10 +35,10 @@ class projects::hemelb(
     cwd     => "${repodir}/dependencies/build",
   }
 
-  lmod::ensure_package{'mercurial': project => $project}
-  lmod::ensure_package{'ninja': project => $project}
-  lmod::ensure_package{'ctemplate': project => $project}
-  lmod::ensure_package{'tinyxml': project => $project}
+  lmod::ensure_package{
+    ['mercurial', 'ninja', 'ctemplate', 'tinyxml', 'cppunit']:
+    project => $project
+  }
   lmod::ensure_package{'java':
     project  => $project,
     provider => 'brewcask'
@@ -56,7 +56,6 @@ class projects::hemelb(
     tap     => 'homebrew/science',
     project => $project
   }
-  lmod::ensure_package{'cppunit': project => $project}
 
   # helps with visualization
   lmod::ensure_package{'paraview':
