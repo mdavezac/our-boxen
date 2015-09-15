@@ -31,6 +31,14 @@ class dotvim::install {
 
   file { "${vimdir}/vundles.vim":
     ensure  => file,
-    content => template('dotvim/vundles.vim.erb')
+    content => template('dotvim/vundles.vim.erb'),
+    require => File[$vimdir]
   }
+
+  file { "/Users/${::boxen_user}/.vim/UltiSnips":
+    ensure => 'link',
+    target => "/Users/${::boxen_user}/.dotfiles/vim/UltiSnips",
+    require => File[$vimdir]
+  }
+
 }

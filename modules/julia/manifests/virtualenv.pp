@@ -1,11 +1,12 @@
-define julia::virtualenv($directory=undef) {
+define julia::virtualenv($metadir=undef) {
+  require lmod::config
+  require julia
   require julia::config
-  if $directory {
-    $dir = $directory
-  } else {
-    $dir = $name
+  $metadirectory = $metadir ? {
+    undef   => "${lmod::config::workspaces}/${name}/.julia/${julia::config::version}",
+    default => "$metadir/${julia::config::version}"
   }
-  repository {"${dir}/.julia/${julia::config::version}/METADATA":
+  repository {"${metadirectory}/METADATA":
     source => 'git@github.com:JuliaLang/METADATA.jl.git'
   }
 }

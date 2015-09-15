@@ -3,18 +3,38 @@ define lmod::project(
   $repository = $undef,
   $python = undef,
   $directory = undef,
+  $source_dir = undef,
+  $template = 'lmod/project.lua.erb',
+  $julia = false,
+  $julia_pkg_dir = undef,
+  $autodir = undef,
+  $modlines = []
 ) {
   require lmod::config
 
-  if $directory { $workspace = $directory }
-  else { $workspace = "${lmod::config::workspaces}/${name}" }
+  $workspace = $directory ? {
+    undef   => "${lmod::config::workspaces}/${name}",
+    default => $directory
+  }
+  $source_directory = $source_dir ? {
+    undef   => "${workspace}/src/${name}",
+    default => $source_dir
+  }
+  $move_here = $autodir ? {
+    undef   => $source_directory,
+    default => $autodir
+  }
+  $julia_package_dir = $julia_pkg_dir ? {
+    undef   => "$workspace/.julia",
+    default => "$julia_pkg_dir/${julia::config::version}"
+  }
 
-  $source_dir = "${workspace}/src/${name}"
   if $repository {
-    repository { $source_dir:
+    repository { $source_directory:
       source  => $repository,
     }
   }
+
   if($python) {
     $venv = $python ? {
       2 => 'python -m virtualenv',
@@ -52,8 +72,9 @@ define lmod::project(
         package => 'pyside';
     }
   }
+
   file { "lmodfile ${name}":
     path    => "${lmod::config::lmodfiles}/${name}.lua",
-    content => template('lmod/project.lua.erb')
+    content => template($template)
   }
 }

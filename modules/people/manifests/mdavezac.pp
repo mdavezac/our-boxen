@@ -8,8 +8,10 @@ class people::mdavezac {
   } -> file { "/Users/${::boxen_user}/.hgrc":
     ensure => 'link',
     target => "/Users/${::boxen_user}/.dotfiles/hgrc"
+  } -> file { "/Users/${::boxen_user}/.ctags":
+    ensure => 'link',
+    target => "/Users/${::boxen_user}/.dotfiles/ctags"
   }
-
   include osx::dock::autohide
   include osx::global::natural_mouse_scrolling
   include osx::global::enable_standard_function_keys

@@ -1,5 +1,5 @@
 local homedir="<%= @workspace %>"
-local srcdir="<%= @source_dir %>"
+local srcdir="<%= @move_here %>"
 setenv("CURRENT_FUN_WITH_HOMEDIR", homedir)
 setenv("CURRENT_FUN_WITH_DIR", srcdir)
 prepend_path("DYLD_LIBRARY_PATH", pathJoin(homedir, "lib"))
@@ -11,8 +11,8 @@ set_alias("pydoc", "python -m pydoc")
 <% end %>
 
 <% if @julia %>
-setenv(
-  "JULIA_PKGDIR",
-  pathJoin(homedir, ".julia", "<%=scope["julia::config::version"]%>")
-)
+setenv("JULIA_PKGDIR", "<%=@julia_package_dir%>")
+<% end %>
+<% for line in @modlines %>
+<%= line %>
 <% end %>

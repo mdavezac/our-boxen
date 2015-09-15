@@ -15,21 +15,23 @@ class projects::bempp($python = 3) {
   misc::ctags {"${lmod::config::workspaces}/${proj}/src/${proj}":
     require => Lmod::Project[$proj]
   }
-  julia::virtualenv {"${proj}::julia":
-    directory => "${lmod::config::workspaces}/${proj}",
-  }
+  julia::virtualenv {$proj: }
   julia::package {"RudeOil":
     repo       => 'https://github.com/UCL/RudeOil.jl.git',
     virtualenv => "${lmod::config::workspaces}/${proj}",
-    require    => Julia::VirtualEnv["${proj}::julia"]
+    require    => Julia::VirtualEnv[$proj]
   }
   julia::package {"DebbyPacker":
     repo       => 'https://github.com/UCL/DebbyPacker.jl.git',
     virtualenv => "${lmod::config::workspaces}/${proj}",
-    require    => Julia::VirtualEnv["${proj}::julia"]
+    require    => Julia::VirtualEnv[$proj]
   }
-  repository { "${lmod::config::workspaces}/${proj}/src/packaging":
-    source => "${proj}/packaging"
+  lmod::project{ "${proj}-packaging":
+    repository    => "${proj}/packaging",
+    source_dir    => "${lmod::config::workspaces}/${proj}/src/packaging",
+    julia         => true,
+    julia_pkg_dir => "${lmod::config::workspaces}/${proj}/.julia",
+    autodir       => "${lmod::config::workspaces}/${proj}/src/packaging",
   }
   homebrew::tap { 'bempp/homebrew-bempp': }
   package { [

@@ -3,8 +3,15 @@ class projects::hemelb(
     $python = 2, $branch='red_blood_cells', $project='hemelb') {
   require lmod
   $repodir = "${lmod::config::workspaces}/${project}/src/${project}"
+  $hemetool = "${repodir}/Tools/hemeTools/converters"
 
-  lmod::project { $project: python => $python }
+  lmod::project {$project:
+    python   => $python,
+    modlines => [
+      "set_alias(\"extract_gmy\", \"python ${hemetool}/GmyUnstructuredGridReader.py\")",
+      "set_alias(\"extract_grid\", \"python ${hemetool}/ExtractedPropertyUnstructuredGridReader.py\")"
+    ]
+  }
   file { "${lmod::config::workspaces}/${project}/.vimrc":
     ensure  => file,
     content => template('projects/hemelb/vimrc.erb'),

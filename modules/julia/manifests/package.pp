@@ -1,6 +1,6 @@
 # Adds a julia package
 define julia::package(
-  $virtualenv=undef, $ensure=present, $package=$name, $repo=undef) {
+  $virtualenv=undef, $ensure=present, $package=$name, $repo=undef, $metadir=undef) {
   case $ensure {
     present: {
       $cmd = $repo ? {
@@ -17,7 +17,8 @@ define julia::package(
   }
   if $virtualenv {
     $envs = ["JULIA_PKGDIR=${virtualenv}/.julia", "HOME=/Users/${::boxe_user}/"]
-    notify{ "PACKAGE  ${name} ${envs}": }
+  } elsif $metadir {
+    $envs = ["JULIA_PKGDIR=${metadir}", "HOME=/Users/${::boxe_user}/"]
   } else {
     $envs = []
   }
