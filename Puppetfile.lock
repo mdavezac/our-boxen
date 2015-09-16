@@ -59,6 +59,11 @@ GITHUBTARBALL
     iterm2 (1.2.5)
 
 GITHUBTARBALL
+  remote: boxen/puppet-karabiner
+  specs:
+    karabiner (1.0.7)
+
+GITHUBTARBALL
   remote: boxen/puppet-nginx
   specs:
     nginx (1.4.6)
@@ -146,6 +151,7 @@ DEPENDENCIES
   hub (= 1.4.1)
   inifile (= 1.4.1)
   iterm2 (>= 0)
+  karabiner (= 1.0.7)
   lastpass (= 1.1.0)
   module_data (= 0.0.4)
   nginx (= 1.4.6)

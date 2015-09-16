@@ -13,5 +13,7 @@ class people::mdavezac::applications {
   package { 'lua': }
   package { 'luajit': }
   package { 'cmake': }
-  package { 'dropbox': provider => 'brewcask' }
+  package { 'dropbox': provider    => 'brewcask' }
+  package { 'firefox': provider    => 'brewcask' }
+  package { 'openoffice': provider => 'brewcask' }
 }

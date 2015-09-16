@@ -24,6 +24,7 @@ class people::mdavezac {
     mode => 2
   }
 
+  include people::mdavezac::keyboard
   include people::mdavezac::applications
   include people::mdavezac::terminals
   include people::mdavezac::python
