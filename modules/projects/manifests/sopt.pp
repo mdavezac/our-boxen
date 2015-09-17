@@ -1,20 +1,25 @@
 # Creates sopt project
 class projects::sopt($python = 3) {
   require lmod
-  lmod::project { 'sopt':
+  $project = 'sopt'
+  lmod::project { $project:
     repository => 'astro-informatics/sopt',
     python     => 3
-  } -> misc::ctags {"${lmod::config::workspaces}/sopt/src/sopt": }
+  } -> misc::ctags {"${lmod::config::workspaces}/${project}/src/${project}": }
 
-  if ! defined(Package['libtiff']) { package { 'libtiff': } }
-  Package['libtiff'] -> Lmod::Project['sopt']
+  lmod::ensure_package{['libtiff', 'ninja', 'fftw', 'eigen']:
+      project => $project,
+  }
 
-  if ! defined(Package['ninja']) { package { 'ninja': } }
-  Package['ninja'] -> Lmod::Project['sopt']
-
-  if ! defined(Package['fftw']) { package { 'fftw': } }
-  Package['fftw'] -> Lmod::Project['sopt']
-
-  if ! defined(Package['eigen']) { package { 'eigen': } }
-  Package['eigen'] -> Lmod::Project['sopt']
+  $repodir = "${lmod::config::workspaces}/${project}/src/${project}"
+  file { "${lmod::config::workspaces}/${project}/.vimrc":
+    ensure  => file,
+    content => template("projects/${project}/vimrc.erb"),
+    require => Lmod::Project[$project]
+  }
+  file { "${lmod::config::workspaces}/${project}/.cppconfig":
+    ensure  => file,
+    content => template("projects/${project}/cppconfig.erb"),
+    require => Lmod::Project[$project],
+  }
 }
