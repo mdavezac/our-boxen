@@ -10,7 +10,7 @@ class projects::bempp($python = 3) {
 
   lmod::project { $proj:
     repository => "${proj}/${proj}",
-    python     => $python
+    python     => $python,
   }
   misc::ctags {"${lmod::config::workspaces}/${proj}/src/${proj}":
     require => Lmod::Project[$proj]
@@ -43,9 +43,13 @@ class projects::bempp($python = 3) {
     prefix  => "${lmod::config::workspaces}/bempp/",
     package => 'mako'
   }
+  misc::pip {'bempp cython':
+    prefix  => "${lmod::config::workspaces}/bempp/",
+    package => 'cython==0.21.1'
+  }
   lmod::ensure_package{[
     'gcc', 'boost', 'doxygen', 'eigen', 'docker', 'docker-machine',
-    'boot2docker']:
+    'boot2docker', 'tbb']:
     project => $project
   }
   lmod::ensure_package{'gpgtools':
