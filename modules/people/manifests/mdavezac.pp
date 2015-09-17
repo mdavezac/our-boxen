@@ -29,6 +29,7 @@ class people::mdavezac {
   include people::mdavezac::terminals
   include people::mdavezac::python
   include people::mdavezac::vim
+  include projects::boxen
   include lmod
   include julia
 }
