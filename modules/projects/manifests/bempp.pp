@@ -1,37 +1,45 @@
 # Creates sopt project
-class projects::bempp($python = 3) {
+class projects::bempp($python = 2) {
   require homebrew
   require lmod
   require lmod::config
   require julia
   require julia::config
-  $project = 'bempp'
+  $srcname = 'bempp'
+  $project = $python ? {
+    2       => "${srcname}-python${python}",
+    default => $srcname
+  }
+  $workspace = "${lmod::config::workspaces}/${project}"
+  $repodir = "${lmod::config::workspaces}/${project}/src/${srcname}"
   $julia = true
 
   lmod::project { $project:
-    repository => "${project}/${project}",
+    repository => "${srcname}/${srcname}",
+    source_dir => "${workspace}/src/${srcname}",
+    directory  => $workspace,
     python     => $python,
   }
-  misc::ctags {"${lmod::config::workspaces}/${project}/src/${project}":
+  misc::ctags {"${workspace}/src/${srcname}":
     require => Lmod::Project[$project]
   }
   julia::virtualenv {$project: }
   julia::package {"RudeOil":
     repo       => 'https://github.com/UCL/RudeOil.jl.git',
-    virtualenv => "${lmod::config::workspaces}/${project}",
+    virtualenv => "${workspace}",
     require    => Julia::VirtualEnv[$project]
   }
   julia::package {"DebbyPacker":
     repo       => 'https://github.com/UCL/DebbyPacker.jl.git',
-    virtualenv => "${lmod::config::workspaces}/${project}",
+    virtualenv => "${workspace}",
     require    => Julia::VirtualEnv[$project]
   }
   lmod::project{ "${project}-packaging":
-    repository    => "${project}/packaging",
-    source_dir    => "${lmod::config::workspaces}/${project}/src/packaging",
+    repository    => "${srcname}/packaging",
+    source_dir    => "${workspace}/src/packaging",
     julia         => true,
-    julia_pkg_dir => "${lmod::config::workspaces}/${project}/.julia",
-    autodir       => "${lmod::config::workspaces}/${project}/src/packaging",
+    julia_pkg_dir => "${workspace}/.julia",
+    autodir       => "${workspace}/src/packaging",
   }
   homebrew::tap { 'bempp/homebrew-bempp': }
   package { [
@@ -41,15 +49,15 @@ class projects::bempp($python = 3) {
   }
   misc::pip {
     "${project} mako":
-      prefix  => "${lmod::config::workspaces}/${project}/",
+      prefix  => $workspace,
       package => 'mako',
       require => Lmod::Project[$project];
     "${project} cython":
-      prefix  => "${lmod::config::workspaces}/${project}/",
+      prefix  => $workspace,
       package => 'cython',
       require => Lmod::Project[$project];
     "${project} pytest":
-      prefix  => "${lmod::config::workspaces}/${project}/",
+      prefix  => $workspace,
       package => 'pytest',
       require => Lmod::Project[$project];
   }
@@ -63,15 +71,14 @@ class projects::bempp($python = 3) {
     provider => 'brewcask'
   }
 
-  $repodir = "${lmod::config::workspaces}/${project}/src/${project}"
-  file { "${lmod::config::workspaces}/${project}/.vimrc":
+  file { "${workspace}/.vimrc":
     ensure  => file,
-    content => template("projects/${project}/vimrc.erb"),
+    content => template("projects/${srcname}/vimrc.erb"),
     require => Lmod::Project[$project]
   }
-  file { "${lmod::config::workspaces}/${project}/.cppconfig":
+  file { "${workspace}/.cppconfig":
     ensure  => file,
-    content => template("projects/${project}/cppconfig.erb"),
+    content => template("projects/${srcname}/cppconfig.erb"),
     require => Lmod::Project[$project],
   }
 }
