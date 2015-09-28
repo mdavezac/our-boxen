@@ -1,0 +1,23 @@
+" vim: set filetype=vim :
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set expandtab
+
+set colorcolumn=101
+set textwidth=100
+
+set makeprg=ninja\ -C\ <%= "#{@repodir}/build"%>\ -v
+let g:syntastic_cpp_config_file="<%= "#{scope["lmod::config::workspaces"]}/#{@project}/.cppconfig"%>"
+let g:syntastic_cpp_include_dirs=[
+\  "/opt/boxen/homebrew/Cellar/open-mpi/1.8.8/include",
+\  "/opt/boxen/homebrew/include",
+\  "<%=@repodir%>/build/external/include",
+\  "<%=@repodir%>/build/include",
+\  "<%=@repodir%>/build/include/bempp",
+\  "/opt/boxen/homebrew/Cellar/python3/3.4.3_2/Frameworks/Python.framework/Versions/3.4/include/python3.4m",
+\  "<%= "#{scope["lmod::config::workspaces"]}/#{@project}/"%>/lib/python3.4/site-packages/numpy/core/include",
+\  "/opt/boxen/homebrew/include/tbb",
+\  "/opt/boxen/homebrew/include/eigen3"
+\ ]
+" let g:ycm_collect_identifiers_from_tags_files=1
