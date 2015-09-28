@@ -15,4 +15,5 @@ class people::mdavezac::applications {
   package { 'cmake': }
   package { 'dropbox': provider    => 'brewcask' }
   package { 'firefox': provider    => 'brewcask' }
+  package { 'zotero': provider    => 'brewcask' }
 }
