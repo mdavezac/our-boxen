@@ -1,0 +1,4 @@
+[jenkins]
+user=mdavezac
+password=<%= File.read("/Users/#{scope['::boxen_user']}/.secrets/jenkins_token.staging") %>
+url=http://staging.development.rc.ucl.ac.uk/jenkins/
