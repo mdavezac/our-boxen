@@ -11,6 +11,21 @@ class projects::sopt($python = 3) {
       project => $project,
   }
 
+  misc::pip{
+    "${project}-cython":
+      prefix  => "${lmod::config::workspaces}/${project}",
+      package => 'cython',
+      require => Lmod::Project[$project];
+    "${project}-pytest":
+      prefix  => "${lmod::config::workspaces}/${project}",
+      package => 'pytest',
+      require => Lmod::Project[$project];
+    "${project}-pyWavelets":
+      prefix  => "${lmod::config::workspaces}/${project}",
+      package => 'pyWavelets',
+      require => Lmod::Project[$project];
+  }
+
   $repodir = "${lmod::config::workspaces}/${project}/src/${project}"
   file { "${lmod::config::workspaces}/${project}/.vimrc":
     ensure  => file,
