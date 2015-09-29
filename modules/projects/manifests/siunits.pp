@@ -24,7 +24,8 @@ class projects::siunits($python = 3) {
     require => Lmod::Project[$project]
   }
   julia::virtualenv { $project:
-    metadir => $workspace
+    metadir    => $workspace,
+    fromsource => 'v0.4.0-rc3'
   }
   julia::package {
     "${project}-FactCheck.jl":
