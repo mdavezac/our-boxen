@@ -10,7 +10,14 @@ class dotvim::install {
     require         => [Package['lua'], Package['luajit'], Package['python']]
   }
   package { 'vim':
+    install_options => [
+      '--with-client-server', '--with-lua', '--with-luajit'
+    ],
     require => Package['python']
+  }
+  homebrew::tap { 'neovim/neovim': }
+  package { 'neovim':
+    install_options => ['--HEAD']
   }
 
   file { $vimdir:
