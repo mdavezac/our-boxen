@@ -1,7 +1,21 @@
 # Mine
 class people::mdavezac {
-  git::config::global { 'user.email': value  => 'm.davezac@ucl.ac.uk' }
-  git::config::global { 'user.name': value  => 'Mayeul d\'Avezac' }
+  git::config::global {
+    'user.email':            value => 'm.davezac@ucl.ac.uk';
+    'user.name':             value => 'Mayeul d\'Avezac';
+    'core.editor':           value => '/opt/boxen/homebrew/bin/vim';
+    'core.ignore':           value => '~/.dotfiles/gitignore';
+    'core.autoclrf':         value => 'false';
+    'color.ui':              value => 'true';
+    'apply.whitespace':      value => 'nowarn';
+    'branch.autosetupmerge': value => 'true';
+    'push.default':          value => 'upstream';
+    'advice.statusHints':    value => 'false';
+  }
+  git::config::global {
+    'format.pretty':
+      value => 'format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset';
+  }
 
   require lmod
   lmod::project { 'dotfiles':
