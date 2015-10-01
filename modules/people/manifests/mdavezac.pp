@@ -3,7 +3,7 @@ class people::mdavezac {
   git::config::global {
     'user.email':            value => 'm.davezac@ucl.ac.uk';
     'user.name':             value => 'Mayeul d\'Avezac';
-    'core.editor':           value => '/opt/boxen/homebrew/bin/vim';
+    'core.editor':           value => 'vim';
     'core.ignore':           value => '~/.dotfiles/gitignore';
     'core.autoclrf':         value => 'false';
     'color.ui':              value => 'true';
