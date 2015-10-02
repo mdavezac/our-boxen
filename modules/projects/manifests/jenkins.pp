@@ -30,7 +30,13 @@ class projects::jenkins {
       require => Lmod::Project[$project];
     "${workspace}/.production.ini":
       content => template("projects/jenkins/production.ini.erb"),
-      require => Lmod::Project[$project]
+      require => Lmod::Project[$project];
+    "${workspace}/.vimrc":
+      content => template("projects/jenkins/vimrc.erb"),
+      require => Lmod::Project[$project];
   }
 
+  repository { "${workspace}/src/build_files":
+    source => 'UCL-RITS/rcps-buildscripts'
+  }
 }
