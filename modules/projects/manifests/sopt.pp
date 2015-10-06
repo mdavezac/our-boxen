@@ -52,14 +52,14 @@ class projects::sopt($python = 3) {
   }
 
   $repodir = "${workspace}/src/${project}"
-  file { "${workspace}/.vimrc":
-    ensure  => file,
-    content => template("projects/${project}/vimrc.erb"),
-    require => Lmod::Project[$project]
-  }
-  file { "${workspace}/.cppconfig":
-    ensure  => file,
-    content => template("projects/${project}/cppconfig.erb"),
-    require => Lmod::Project[$project],
+  file {
+    "${workspace}/.vimrc":
+      ensure  => file,
+      content => template("projects/${project}/vimrc.erb"),
+      require => Lmod::Project[$project];
+    "${workspace}/.cppconfig":
+      ensure  => file,
+      content => template("projects/${project}/cppconfig.erb"),
+      require => Lmod::Project[$project],
   }
 }
