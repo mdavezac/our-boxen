@@ -27,7 +27,10 @@ class people::mdavezac {
       target  => "/Users/${::boxen_user}/.dotfiles/hgrc";
     "/Users/${::boxen_user}/.ctags":
       ensure => 'link',
-      target => "/Users/${::boxen_user}/.dotfiles/ctags",
+      target => "/Users/${::boxen_user}/.dotfiles/ctags";
+    "/Users/${::boxen_user}/.ssh/config":
+      ensure => 'link',
+      target => "/Users/${::boxen_user}/.dotfiles/sshconfig",
   }
 
   include osx::dock::autohide
