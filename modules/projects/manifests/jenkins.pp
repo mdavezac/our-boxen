@@ -9,21 +9,25 @@ class projects::jenkins {
     repository => 'UCL-RITS/jenkins-job-builder-files',
     python     => 2,
     modlines   => [
-      "set_alias(\"production\", \"jenkins-jobs --conf ${workspace}/.production.ini\")",
-      "set_alias(\"staging\", \"jenkins-jobs --conf ${workspace}/.staging.ini\")",
+      "set_alias(\"production\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.production.ini\")",
+      "set_alias(\"staging\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.staging.ini\")",
     ]
   } -> repository { "${project}-rc-puppet":
     path   => "${workspace}/src/rc-puppet",
     source => 'UCL-RITS/rc_puppet.git'
   }
   misc::pip {
+    "${project}-python-jenkins":
+      prefix  => $workspace,
+      package => 'python-jenkins==0.4.8',
+      require => Lmod::Project[$project];
     "${project}-jenkins-job-builder":
       prefix  => $workspace,
       package => 'jenkins-job-builder',
-      require => Lmod::Project[$project];
+      require => [Lmod::Project[$project], Misc::Pip["${project}-python-jenkins"]];
     "${project}-jenkjobs":
       prefix  => $workspace,
-      package => 'git+https://github.com/UCL/jenkjobs==1.2.0',
+      package => 'git+https://github.com/UCL/jenkjobs',
       require => Lmod::Project[$project];
     "${project}-slack":
       prefix  => $workspace,

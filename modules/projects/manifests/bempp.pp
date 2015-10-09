@@ -62,13 +62,17 @@ class projects::bempp($python = 2) {
       require => Lmod::Project[$project];
   }
   lmod::ensure_package{[
-    'gcc', 'boost', 'doxygen', 'eigen', 'docker', 'docker-machine',
+    'gcc', 'doxygen', 'eigen', 'docker', 'docker-machine',
     'boot2docker', 'tbb']:
     project => $project
   }
-  lmod::ensure_package{'gpgtools':
-    project  => $project,
-    provider => 'brewcask'
+  lmod::ensure_package{
+    'gpgtools':
+      project  => $project,
+      provider => 'brewcask';
+    'boost':
+      install_options => ['--c++11'],
+      project         => $project;
   }
 
   file { "${workspace}/.vimrc":
