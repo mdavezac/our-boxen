@@ -1,5 +1,9 @@
 # Mine
 class people::mdavezac {
+  service {['dev.nginx', 'dev.dnsmasq']:
+        ensure => "stopped",
+  }
+
   git::config::global {
     'user.email':            value => 'm.davezac@ucl.ac.uk';
     'user.name':             value => 'Mayeul d\'Avezac';
