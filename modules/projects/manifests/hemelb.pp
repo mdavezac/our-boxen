@@ -14,10 +14,14 @@ class projects::hemelb($python=2, $project='hemelb') {
       "set_alias(\"production\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.production.ini\")",
       "set_alias(\"staging\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.staging.ini\")",
       "setenv(\"CXXFLAGS\", \"-I/opt/boxen/homebrew/include -Wall -Wno-deprecated-register\")",
+      "setenv(\"TMP\", \"${repodir}/build/tmp\")",
     ]
   } -> misc::ctags {$repodir: }
   misc::cookoff { $project: }
   file {
+    "${repodir}/build/tmp":
+      ensure  => directory,
+      require => Lmod::Project[$project];
     "${workspace}/.vimrc":
       ensure  => file,
       content => template('projects/hemelb/vimrc.erb'),
@@ -35,6 +39,20 @@ class projects::hemelb($python=2, $project='hemelb') {
     "${workspace}/src/${project}/ucl-ccs-slack-token":
       ensure  => link,
       target  => "/Users/${::boxen_user}/.secrets/ucl-ccs-slack-token",
+      require => Lmod::Project[$project];
+    "${workspace}/.vim":
+      ensure  => directory,
+      require => Lmod::Project[$project];
+    "${workspace}/.vim/UltiSnips":
+      ensure  => directory,
+      require => File["${workspaces}/.vim"];
+    "${workspace}/.vim/UltiSnips/cpp.snippets":
+      ensure  => link,
+      target => "${::boxen_home}/repo/modules/projects/templates/${project}/cpp.snippets",
+      require => File["${workspaces}/.vim/UltiSnips"];
+    "${workspace}/.vimrc.before":
+      ensure  => link,
+      content => template('projects/hemelb/vimrc.before.erb'),
       require => Lmod::Project[$project];
   }
 
