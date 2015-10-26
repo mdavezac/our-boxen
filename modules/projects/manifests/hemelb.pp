@@ -14,14 +14,17 @@ class projects::hemelb($python=2, $project='hemelb') {
       "set_alias(\"production\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.production.ini\")",
       "set_alias(\"staging\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.staging.ini\")",
       "setenv(\"CXXFLAGS\", \"-I/opt/boxen/homebrew/include -Wall -Wno-deprecated-register\")",
-      "setenv(\"TMP\", \"${repodir}/build/tmp\")",
+      "setenv(\"TMP\", pathjoin(srcdir, \"build\", \"tmp\"))",
     ]
   } -> misc::ctags {$repodir: }
   misc::cookoff { $project: }
   file {
-    "${repodir}/build/tmp":
+    "${repodir}/build":
       ensure  => directory,
       require => Lmod::Project[$project];
+    "${repodir}/build/tmp":
+      ensure  => directory,
+      require => File["${repodir}/build"];
     "${workspace}/.vimrc":
       ensure  => file,
       content => template('projects/hemelb/vimrc.erb'),
@@ -45,13 +48,12 @@ class projects::hemelb($python=2, $project='hemelb') {
       require => Lmod::Project[$project];
     "${workspace}/.vim/UltiSnips":
       ensure  => directory,
-      require => File["${workspaces}/.vim"];
+      require => File["${workspace}/.vim"];
     "${workspace}/.vim/UltiSnips/cpp.snippets":
       ensure  => link,
       target => "${::boxen_home}/repo/modules/projects/templates/${project}/cpp.snippets",
-      require => File["${workspaces}/.vim/UltiSnips"];
+      require => File["${workspace}/.vim/UltiSnips"];
     "${workspace}/.vimrc.before":
-      ensure  => link,
       content => template('projects/hemelb/vimrc.before.erb'),
       require => Lmod::Project[$project];
   }
@@ -81,7 +83,7 @@ class projects::hemelb($python=2, $project='hemelb') {
   misc::pip {
     "${project}-python-jenkins":
       prefix  => $workspace,
-      package => 'python-jenkins==0.4.8',
+      package => 'python-jenkins==0.4.8';
     "${project}-jenkins-job-builder":
       prefix  => $workspace,
       package => 'jenkins-job-builder',
