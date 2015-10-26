@@ -14,7 +14,7 @@ class projects::hemelb($python=2, $project='hemelb') {
       "set_alias(\"production\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.production.ini\")",
       "set_alias(\"staging\", \"jenkins-jobs --ignore-cache --conf ${workspace}/.staging.ini\")",
       "setenv(\"CXXFLAGS\", \"-I/opt/boxen/homebrew/include -Wall -Wno-deprecated-register\")",
-      "setenv(\"TMP\", pathjoin(srcdir, \"build\", \"tmp\"))",
+      "setenv(\"TMP\", pathJoin(srcdir, \"build\", \"tmp\"))",
     ]
   } -> misc::ctags {$repodir: }
   misc::cookoff { $project: }
