@@ -1,5 +1,5 @@
 # Creates sopt project
-class projects::bempp($python = 2) {
+class projects::bempp($python = 3) {
   require homebrew
   require lmod
   require lmod::config
@@ -59,6 +59,10 @@ class projects::bempp($python = 2) {
     "${project} pytest":
       prefix  => $workspace,
       package => 'pytest',
+      require => Lmod::Project[$project];
+    "${project} numpy":
+      prefix  => $workspace,
+      package => 'numpy',
       require => Lmod::Project[$project];
   }
   lmod::ensure_package{[

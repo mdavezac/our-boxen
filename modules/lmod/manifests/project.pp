@@ -65,11 +65,11 @@ define lmod::project(
         prefix  => $workspace,
         require => Exec["virtualenv_${name}"],
         package => 'matplotlib';
-      "${name}-pyside":
-        ensure => present,
-        prefix  => $workspace,
-        require => Exec["virtualenv_${name}"],
-        package => 'pyside';
+      # "${name}-pyside":
+      #   ensure => present,
+      #   prefix  => $workspace,
+      #   require => Exec["virtualenv_${name}"],
+      #   package => 'pyside';
     }
   }
 
