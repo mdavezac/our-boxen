@@ -23,14 +23,18 @@ class dotvim::install {
   file {
     $vimdir:
       ensure  => directory;
-    $dotvim::config::bundledir:
+    $bundledir:
       ensure  => directory,
       require => File[$vimdir];
-    "$dotvim::config::vimdir/autoload":
+    "${vimdir}/autoload":
       ensure  => directory,
       require => File[$vimdir];
-    "$dotvim::config::vimdir/.gissue-cache":
+    "${vimdir}/.gissue-cache":
       ensure  => directory,
+      require => File[$vimdir];
+    "${vimdir}/after":
+      ensure => link,
+      target => "/Users/${::boxen_user}/.dotfiles/vim/after",
       require => File[$vimdir];
   }
 
@@ -43,7 +47,7 @@ class dotvim::install {
       ensure  => file,
       content => template('dotvim/vundles.vim.erb'),
       require => File[$vimdir];
-    "/Users/${::boxen_user}/.vim/UltiSnips":
+    "${vimdir}/UltiSnips":
       ensure => 'link',
       target => "/Users/${::boxen_user}/.dotfiles/vim/UltiSnips",
       require => File[$vimdir];
