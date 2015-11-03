@@ -5,9 +5,19 @@ class people::mdavezac::keyboard {
   include karabiner::login_item
 
   # create profile
-  karabiner::profile{ 'office': }
+  karabiner::profile{ 'Default': }
+  -> karabiner::set {
+    'Default repeat.wait':
+      identifier => 'repeat.wait',
+      value      => 42;
+    'Default repeat.initial_wait':
+      identifier => 'repeat.initial_wait',
+      value      => 401;
+  }
 
-  karabiner::set {
+  # create profile
+  karabiner::profile{ 'office': }
+  -> karabiner::set {
     'remap.uk_backslash2hash':
       value      => 1,
       profile    => 'office';
