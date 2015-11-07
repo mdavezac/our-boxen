@@ -1,1 +1,1 @@
-class julia::config($version="v0.3") {}
+class julia::config($version="v0.4") {}
