@@ -3,12 +3,11 @@ class projects::siunits($python = 3) {
   require homebrew
   require lmod
   require lmod::config
-  require julia
   require julia::config
   $srcname = 'SIUnits.jl'
   $project = 'siunits'
   $workspace = "${lmod::config::workspaces}/${project}"
-  $repodir = "${workspace}/${julia::config::version}/${srcname}"
+  $repodir = "${workspace}/${julia::config::version}/Units.jl"
   $julia = true
 
   lmod::project { $project:
@@ -29,16 +28,24 @@ class projects::siunits($python = 3) {
   }
   julia::package {
     "${project}-FactCheck.jl":
-      package => "FactCheck",
-      metadir => "${workspace}/${julia::config::version}",
-      require => Julia::VirtualEnv[$project];
+      package  => "FactCheck",
+      metadir  => "${workspace}/${julia::config::version}",
+      juliacmd => "${workspace}/bin/julia",
+      require  => Julia::VirtualEnv[$project];
     "${project}-ijulia":
       package => "IJulia",
       metadir => "${workspace}/${julia::config::version}",
+      juliacmd => "${workspace}/bin/julia",
       require => Julia::VirtualEnv[$project];
     "${project}-gadfly":
       package => "Gadfly",
       metadir => "${workspace}/${julia::config::version}",
+      juliacmd => "${workspace}/bin/julia",
+      require => Julia::VirtualEnv[$project];
+    "${project}-SIUnits":
+      package => "SIUnits",
+      metadir => "${workspace}/${julia::config::version}",
+      juliacmd => "${workspace}/bin/julia",
       require => Julia::VirtualEnv[$project];
   }
 

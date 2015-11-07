@@ -1,6 +1,6 @@
 # Adds a julia package
 define julia::package(
-  $virtualenv=undef, $ensure=present, $package=$name, $repo=undef, $metadir=undef) {
+  $virtualenv=undef, $ensure=present, $package=$name, $repo=undef, $metadir=undef, $juliacmd="julia") {
   case $ensure {
     present: {
       $cmd = $repo ? {
@@ -16,15 +16,15 @@ define julia::package(
     }
   }
   if $virtualenv {
-    $envs = ["JULIA_PKGDIR=${virtualenv}/.julia", "HOME=/Users/${::boxe_user}/"]
+    $envs = ["JULIA_PKGDIR=${virtualenv}/.julia", "HOME=/Users/${::boxen_user}/", "PATH=${virtualenv}/bin"]
   } elsif $metadir {
-    $envs = ["JULIA_PKGDIR=${metadir}", "HOME=/Users/${::boxe_user}/"]
+    $envs = ["JULIA_PKGDIR=${metadir}", "HOME=/Users/${::boxen_user}/"]
   } else {
     $envs = []
   }
   exec { "${name}":
-    command     => "julia -e \"${cmd}\"",
-    unless      => "julia -e \"Pkg.installed(\\\"${package}\\\") ${exitcmd}\"",
+    command     => "${juliacmd} -e \"${cmd}\"",
+    unless      => "${juliacmd} -e \"Pkg.installed(\\\"${package}\\\") ${exitcmd}\"",
     environment => $envs
   }
 }

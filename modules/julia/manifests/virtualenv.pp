@@ -3,7 +3,9 @@ define julia::virtualenv(
   $fromsource=undef
 ) {
   require lmod::config
-  require julia
+  if($fromsource == undef) {
+    require julia
+  }
   require julia::config
   $workspace = $metadir ? {
     undef   => "${lmod::config::workspaces}/${name}",
