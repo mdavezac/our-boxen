@@ -1,5 +1,8 @@
 # Mine
 class people::mdavezac {
+
+  require lmod
+
   service {['dev.nginx', 'dev.dnsmasq']:
         ensure => "stopped",
   }
@@ -16,14 +19,12 @@ class people::mdavezac {
     'push.default':          value => 'upstream';
     'advice.statusHints':    value => 'false';
   }
-  git::config::global {
+  -> git::config::global {
     'format.pretty':
       value => 'format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset';
   }
-
-  require lmod
-  lmod::project { 'dotfiles':
-    repository => "mdavezac/SIUnits.jl",
+  -> lmod::project { 'dotfiles':
+    repository => "mdavezac/dotfiles",
     source_dir => "/Users/${::boxen_user}/.dotfiles",
   } -> file {
     "/Users/${::boxen_user}/.hgrc":
