@@ -58,4 +58,5 @@ class people::mdavezac {
   include projects::boxen
   include lmod
   include julia
+  package { 'gcc': }
 }
