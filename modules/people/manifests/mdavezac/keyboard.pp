@@ -16,7 +16,7 @@ class people::mdavezac::keyboard {
   }
 
   # create profile
-  karabiner::profile{ 'office': }
+  -> karabiner::profile{ 'office': }
   -> karabiner::set {
     'remap.uk_backslash2hash':
       value      => 1,

@@ -66,7 +66,7 @@ class projects::bempp($python = 3) {
       require => Lmod::Project[$project];
   }
   lmod::ensure_package{[
-    'gcc', 'doxygen', 'eigen', 'docker', 'docker-machine',
+    'doxygen', 'eigen', 'docker', 'docker-machine',
     'boot2docker', 'tbb']:
     project => $project
   }

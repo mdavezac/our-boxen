@@ -27,8 +27,7 @@ define julia::virtualenv(
       cwd     => "${workspace}/julia",
       creates => "${workspace}/bin/julia",
       tries   => 3,
-      timeout => 3600,
-      require => Package['gcc']
+      timeout => 3600
     }
   }
 }

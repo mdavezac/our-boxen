@@ -18,6 +18,6 @@ class people::mdavezac::applications {
     'luajit':;
 
     'mactex': provider =>  brewcask;
-    'pandoc':;
+#   'pandoc':;
   }
 }

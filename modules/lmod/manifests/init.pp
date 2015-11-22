@@ -7,11 +7,13 @@ class lmod {
   exec { 'lua filesystem':
     command => 'luarocks install luafilesystem',
     unless  => "zsh -c 'source /Users/${::boxen_user}/.zprofile && lua -e 'require \"elfs\"'",
+    require => Package['lua']
   }
   exec { 'lua luaposix':
     creates => "${boxen::config::homebrewdir}/lib/lua/5.2/posix.so",
     unless  => "zsh -c 'source /Users/${::boxen_user}/.zprofile && lua -e 'require \"posix\"'",
-    command => 'luarocks install luaposix'
+    command => 'luarocks install luaposix',
+    require => Package['lua']
   }
 
   exec { 'lmod':
