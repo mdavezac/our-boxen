@@ -1,9 +1,9 @@
 # Declares a few standard pythons
 class people::mdavezac::python {
-  package {['python', 'python3']: }
   $packages = [
     'ipython[\'all\']', 'scipy', 'numpy',
     'cython', 'pytest', 'virtualenv'
   ]
-  misc::pip{ $packages: }
+  package {['python', 'python3']: }
+  -> misc::pip{ $packages: }
 }

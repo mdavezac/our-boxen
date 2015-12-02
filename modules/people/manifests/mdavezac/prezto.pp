@@ -53,7 +53,7 @@ class people::mdavezac::prezto ($repo = 'sorin-ionescu/prezto') {
     ensure  => symlink,
     target  => "${home}/.dotfiles/zsh/prompts/funwith.zsh",
     require => [
-      Repository["/Users/${::boxen_user}/.dotfiles"],
+      Repository['dotfiles'],
       Repository[$zprezto]
     ]
   }

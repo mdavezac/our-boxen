@@ -1,6 +1,8 @@
 # All configs for vim
 class people::mdavezac::vim {
-  include dotvim
+  class { 'dotvim':
+    require => Repository['dotfiles']
+  }
 
   dotvim::bundle { 'Valloric/YouCompleteMe':
     managed => false
@@ -22,14 +24,15 @@ class people::mdavezac::vim {
   file {
     "/Users/${::boxen_user}/.vimrc":
       target  => "/Users/${::boxen_user}/.dotfiles/vim/vimrc",
-      require => Repository["/Users/${::boxen_user}/.dotfiles"];
+      require => Repository['dotfiles'];
     "/Users/${::boxen_user}/.gvimrc":
       target  => "/Users/${::boxen_user}/.dotfiles/vim/gvimrc",
-      require => Repository["/Users/${::boxen_user}/.dotfiles"];
+      require => Repository['dotfiles'];
     "${dotvim::config::vimdir}/undo":
       ensure => directory;
     "/Users/${::boxen_user}/.ycm_extra_conf.py":
       target => "/Users/${::boxen_user}/.dotfiles/vim/ycm_extra_conf.py",
-      ensure => 'link';
+      ensure => 'link',
+      require => Repository['dotfiles'];
   }
 }
