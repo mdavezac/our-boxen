@@ -15,3 +15,8 @@ let g:syntastic_cpp_include_dirs=[
 \  "<%=@workspace%>/include"
 \ ]
 let g:ycm_collect_identifiers_from_tags_files=1
+augroup autoformat
+  au!
+  au BufWrite *.h,*.cpp,*.cc :Autoformat
+augroup END
+let g:formatdef_clangformat_objc = '"clang-format -style=LLVM"'

@@ -1,7 +1,7 @@
 define misc::catch(
   $prefix,
 ) {
-  $url = 'https://raw.githubusercontent.com/philsquared/Catch/develop/single_include/catch.hpp'
+  $url = 'https://raw.githubusercontent.com/philsquared/Catch/master/single_include/catch.hpp'
   file { "${prefix}-include":
     ensure => directory
   } -> exec { "${prefix}/include/catch.hpp":

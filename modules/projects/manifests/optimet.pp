@@ -6,7 +6,7 @@ class projects::optimet($project='optimet') {
 
   lmod::project {$project:
     repository => "OPTIMET/OPTIMET"
-  }
+  } -> misc::ctags {"${workspace}/src/${project}": }
 
   file {
     "${workspace}/.vimrc":
@@ -77,5 +77,14 @@ class projects::optimet($project='optimet') {
     tarfile    => true,
     require =>  Lmod::Project[$project]
   }
+
+  misc::catch{ $project:
+    prefix  => $workspace,
+    require => Lmod::Project[$project]
+  }
+  misc::cookoff{$project: }
+
+  # for clang autoformat
+  lmod::ensure_package{'llvm': project => $project }
 
 }
