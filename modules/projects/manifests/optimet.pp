@@ -85,6 +85,6 @@ class projects::optimet($project='optimet') {
   misc::cookoff{$project: }
 
   # for clang autoformat
-  lmod::ensure_package{'llvm': project => $project }
+  lmod::ensure_package{'clang-format': project => $project }
 
 }
