@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd <%= "#{@repodir}"%>
+clang-format -style=file *.h *.cpp unittests/*.cpp

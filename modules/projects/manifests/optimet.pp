@@ -17,6 +17,11 @@ class projects::optimet($project='optimet') {
       ensure  => file,
       content => template("projects/${project}/cppconfig.erb"),
       require => Lmod::Project[$project];
+    # "${repodir}/.git/hooks/pre-commit":
+    #   ensure  => file,
+    #   content => template("projects/${project}/pre-commit.erb"),
+    #   mode    => 700,
+    #   require => Lmod::Project[$project];
   }
 
   exec { "${project} - Download gsl":
