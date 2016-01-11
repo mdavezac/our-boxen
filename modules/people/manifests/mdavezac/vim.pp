@@ -9,7 +9,7 @@ class people::mdavezac::vim {
   }
   $ycmdir = "/Users/${::boxen_user}/.vim/bundle/YouCompleteMe"
   exec { 'compile youcompleteme':
-    command => "/usr/bin/env -i bash -c 'source ${boxen::config::home}/env.sh && ${ycmdir}/install.sh --clang-completer'",
+    command => "/usr/bin/env -i bash -c 'source ${boxen::config::home}/env.sh && ${ycmdir}/install.py --clang-completer --system-boost'",
     cwd     => $ycmdir,
     creates => [
       "${ycmdir}/third_party/ycmd/ycm_client_support.so",
@@ -20,6 +20,7 @@ class people::mdavezac::vim {
       Package['cmake'], Package['python']
     ]
   }
+  package { ['boost', 'boost-python']: }
 
   file {
     "/Users/${::boxen_user}/.vimrc":
