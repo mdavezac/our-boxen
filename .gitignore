@@ -13,4 +13,3 @@
 /vendor/puppet/
 /vendor/puppet/
 /vendor/cache/
-*.lock
